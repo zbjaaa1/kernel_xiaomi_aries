@@ -705,7 +705,7 @@ SYSCALL_DEFINE4(mq_open, const char __user *, u_name, int, oflag, umode_t, mode,
 
 	if (oflag & O_CREAT) {
 		if (dentry->d_inode) {	/* entry already exists */
-			audit_inode(name->name, path.dentry);
+			audit_inode(name->name, filp->f_path.dentry);
 			if (oflag & O_EXCL) {
 				error = -EEXIST;
 				goto out;
@@ -721,7 +721,7 @@ SYSCALL_DEFINE4(mq_open, const char __user *, u_name, int, oflag, umode_t, mode,
 			error = -ENOENT;
 			goto out;
 		}
-		audit_inode(name->name, path.dentry);
+		audit_inode(name->name, filp->f_path.dentry);
 		filp = do_open(ipc_ns, dentry, oflag);
 	}
 
